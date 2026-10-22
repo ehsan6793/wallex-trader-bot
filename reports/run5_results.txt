@@ -1,0 +1,24 @@
+=== four proposed strategies (majors, fee 0.30%) ===
+1 trend pullback 1h (4h trend) RR2                   n= 55 avg=-0.78% win=29% | wk1 -30.05%(47) wk2  -5.29%( 3) wk3  -7.74%( 5)
+1 trend pullback 1h RR1.5                            n= 59 avg=-0.67% win=37% | wk1 -27.06%(50) wk2  -5.29%( 3) wk3  -7.04%( 6)
+1 trend pullback 15m (4h trend) RR2                  n=137 avg=-0.84% win=23% | wk1 -82.85%(113) wk2 -17.99%(14) wk3 -14.88%(10)
+2 breakout+retest 15m RR2                            n=109 avg=-0.98% win=20% | wk1 -29.94%(39) wk2 -45.06%(33) wk3 -31.77%(37)
+2 breakout+retest 1h RR2                             n= 39 avg=-0.99% win=28% | wk1  -8.37%(12) wk2 -21.45%(11) wk3  -8.93%(16)
+3 range 15m                                          n=  4 avg=-0.60% win=25% | wk1  +2.13%( 1) wk2  -2.97%( 2) wk3  -1.56%( 1)
+3 range 1h                                           n=0
+4 volume momentum 5m RR2                             n=415 avg=-0.82% win=18% | wk1 -104.50%(143) wk2 -115.81%(132) wk3 -118.71%(140)
+4 volume momentum 15m RR2                            n=152 avg=-0.67% win=34% | wk1 -30.32%(59) wk2 -38.69%(43) wk3 -33.41%(50)
+4 volume momentum 15m RR1.5                          n=159 avg=-0.68% win=33% | wk1 -31.58%(64) wk2 -38.37%(44) wk3 -38.95%(51)
+
+=== rebound: faster variants ===
+rebound 15m 2h drop>=3% hold<=8h (LIVE)              n= 28 avg=+0.93% win=82% | wk1 +11.74%(14) wk2  +9.86%(12) wk3  +4.52%( 2)
+rebound 15m 2h drop>=3% hold<=4h                     n= 28 avg=+0.75% win=64% | wk1 +13.84%(14) wk2  +2.51%(12) wk3  +4.52%( 2)
+rebound 15m 2h drop>=3% TP2% hold<=4h                n= 31 avg=+0.30% win=58% | wk1  +4.96%(17) wk2  +1.93%(12) wk3  +2.52%( 2)
+rebound 15m 1h drop>=2.5%                            n= 26 avg=+0.46% win=73% | wk1  +1.11%(13) wk2  +3.81%( 9) wk3  +7.13%( 4)
+rebound 15m 1h drop>=2%                              n= 50 avg=+0.35% win=64% | wk1  -1.70%(15) wk2  +5.82%(18) wk3 +13.53%(17)
+rebound 15m 2h drop>=2.5%                            n= 36 avg=+0.40% win=72% | wk1  +3.50%(17) wk2  +6.21%(17) wk3  +4.52%( 2)
+rebound 15m 2h drop>=2%                              n= 64 avg=+0.04% win=58% | wk1 -10.29%(22) wk2  -2.97%(23) wk3 +15.63%(19)
+rebound 5m 1h drop>=3%                               n= 25 avg=+0.43% win=72% | wk1  -0.76%(14) wk2  +6.33%( 8) wk3  +5.13%( 3)
+rebound 5m 1h drop>=2.5%                             n= 38 avg=+0.19% win=68% | wk1 -11.76%(18) wk2  +7.61%(12) wk3 +11.53%( 8)
+rebound 5m 30m drop>=2%                              n= 50 avg=+0.22% win=68% | wk1  -5.19%(19) wk2  +0.04%(13) wk3 +16.18%(18)
+rebound 5m 2h drop>=3% hold<=4h                      n= 35 avg=-0.31% win=57% | wk1 -10.56%(18) wk2  -7.50%(13) wk3  +7.38%( 4)

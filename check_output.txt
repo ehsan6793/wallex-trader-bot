@@ -1,0 +1,15 @@
+✓ بازارها: 373 کل، 187 تومانی
+  BTCTMN     ✓  qty_dec=8 price_dec=0 min_notional=50,000
+  ETHTMN     ✓  qty_dec=5 price_dec=0 min_notional=50,000
+  BNBTMN     ✓  qty_dec=5 price_dec=0 min_notional=50,000
+  SOLTMN     ✓  qty_dec=5 price_dec=0 min_notional=50,000
+  XRPTMN     ✓  qty_dec=1 price_dec=0 min_notional=50,000
+  DOGETMN    ✓  qty_dec=1 price_dec=0 min_notional=50,000
+  TRXTMN     ✓  qty_dec=1 price_dec=0 min_notional=50,000
+  XAUTTMN    ✓  qty_dec=5 price_dec=0 min_notional=50,000
+✓ عمق BTCTMN: bid=22,126,687,727 ask=22,126,687,728
+✓ کندل ۵ دقیقه: 25 عدد، آخرین 2026-10-22 12:30:00+00:00
+✓ موجودی: {"TMN": {"total": 5000000.0, "locked": 0.0, "free": 5000000.0}}
+کارمزد واقعی taker بازارهای تومانی: 0.3000%
+✓ سفارش‌های باز: 0
+پایان چالش: 2026-10-23T13:30:00+03:30

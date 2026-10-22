@@ -1,0 +1,10 @@
+=== Thu 10/22/2026 14:33:20.63 
+C:\Python314\python.exe
+C:\Users\EhsanAmiri\AppData\Local\Programs\Python\Python312\python.exe
+C:\Users\EhsanAmiri\AppData\Local\Programs\Python\Python311\python.exe
+C:\Users\EhsanAmiri\AppData\Local\Microsoft\WindowsApps\python.exe
+Python 3.14.8
+Python 3.14.8
+libs ok 2.4.6 3.0.3 0.27.2
+wallex http 200 
+done 
