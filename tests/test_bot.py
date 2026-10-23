@@ -192,3 +192,61 @@ def test_llm_called_only_with_candidates_and_can_veto(s, monkeypatch):
     assert len(calls) == 1 and calls[0]["max_tokens"] <= 150
     vetoed = sorted(json.loads(calls[0]["messages"][1]["content"])["cand"])[0]
     assert vetoed not in e.positions and e.positions
+
+
+def _demo_fake(s):
+    fake = FakeWallex(days=3)
+    fake.data["BTCTMN"].iloc[-1, fake.data["BTCTMN"].columns.get_loc("close")] *= 1.0  # no-op, keep data stable
+    return fake
+
+
+def test_demo_round_trip_paper_forced_entry(s):
+    """Forced demo entry + algorithmic exit on a simulated broker; exactly one BUY and one SELL, then stops."""
+    from bot.broker import PaperBroker
+    from bot.demo import Demo
+    from bot.journal import Journal
+    s.symbols = ["BTCTMN", "ETHTMN", "SOLTMN"]
+    fake = _demo_fake(s)
+    j = Journal(s.log_dir, "demo_shadow")
+    s.max_spread = 0.01
+    d = Demo(s, fake, PaperBroker(fake, s, j), j, amount=300_000, wait_min=0, loop_seconds=0, hold_sec=0)
+    d.drop, d.lookback = -0.99, 3  # no natural signal -> forced entry path (fake exchange has 5m bars)
+    res = d.run()
+    assert res is not None and d.done and d.pos is None
+    tr = pd.read_csv(s.log_dir / "trades_demo_shadow.csv")
+    assert list(tr["side"]) == ["BUY", "SELL"]
+    assert "forced demo entry" in tr.iloc[0]["reason"]
+    assert tr.iloc[0]["symbol"] == tr.iloc[1]["symbol"]
+
+
+def test_demo_round_trip_live_broker_on_fake_exchange(s):
+    """Same flow through LiveBroker (LIMIT orders, balances) against the in-memory exchange: ends back in Toman."""
+    from bot.broker import LiveBroker
+    from bot.demo import Demo
+    from bot.journal import Journal
+    s.symbols = ["BTCTMN", "ETHTMN", "SOLTMN"]
+    s.max_spread = 0.01
+    fake = _demo_fake(s)
+    j = Journal(s.log_dir, "demo")
+    d = Demo(s, fake, LiveBroker(fake, s, j), j, amount=300_000, wait_min=0, loop_seconds=0, hold_sec=0)
+    d.drop, d.lookback = -0.99, 3
+    res = d.run()
+    assert res is not None and d.done
+    sides = [c[1] for c in fake.calls]
+    assert sides == ["BUY", "SELL"]
+    base = res["symbol"][:-3]
+    assert fake.bal.get(base, 0) < 1e-6          # nothing left except Toman
+    assert fake.bal["TMN"] > 4_900_000           # only fees/spread lost
+
+
+def test_demo_refuses_near_challenge_end(s):
+    from bot.broker import PaperBroker
+    from bot.demo import Demo
+    from bot.journal import Journal
+    from datetime import datetime, timedelta, timezone
+    s.symbols = ["BTCTMN"]
+    s.end_time = (datetime.now(timezone.utc) + timedelta(minutes=10)).isoformat()
+    fake = FakeWallex(days=3)
+    j = Journal(s.log_dir, "demo")
+    d = Demo(s, fake, PaperBroker(fake, s, j), j, amount=300_000, wait_min=0, loop_seconds=0)
+    assert d.run() is None and fake.calls == [] and not (s.log_dir / "trades_demo.csv").exists()

@@ -1,4 +1,4 @@
-"""CLI:  python -m bot <check|backtest|shadow|live|flatten|report>"""
+"""CLI:  python -m bot <check|backtest|shadow|live|demo|flatten|report>"""
 from __future__ import annotations
 
 import argparse
@@ -151,6 +151,24 @@ def cmd_live(s, a):
     _engine(s, "live").run()
 
 
+def cmd_demo(s, a):
+    """One 1-minute-bar round trip (BUY then algorithmic SELL). With --yes: real orders. Without: simulated on live prices."""
+    from .broker import LiveBroker, PaperBroker
+    from .demo import Demo
+    from .journal import Journal
+    api = _api(s)
+    live = bool(a.yes)
+    if live and not s.api_key:
+        sys.exit("WALLEX_API_KEY لازم است")
+    j = Journal(s.log_dir, "demo" if live else "demo_shadow")
+    if s.api_key:
+        apply_real_fees(api, s, j.event)
+    broker = LiveBroker(api, s, j) if live else PaperBroker(api, s, j)
+    if not live:
+        print("حالت شبیه‌سازی (سفارش واقعی ثبت نمی‌شود). برای معاملهٔ واقعی: python -m bot demo --yes")
+    Demo(s, api, broker, j, amount=a.amount, wait_min=a.wait_min).run()
+
+
 def cmd_flatten(s, a):
     """Sell the bot's markets (SYMBOLS) back to Toman. Other assets in the account are never touched."""
     from .broker import LiveBroker
@@ -227,6 +245,10 @@ def main():
     sub.add_parser("shadow")
     l = sub.add_parser("live")
     l.add_argument("--yes", action="store_true")
+    dm = sub.add_parser("demo", help="one 1-minute round trip (BUY+SELL) to prove live execution")
+    dm.add_argument("--yes", action="store_true")
+    dm.add_argument("--amount", type=float, default=None, help="toman to spend (default DEMO_AMOUNT=500000)")
+    dm.add_argument("--wait-min", type=float, default=None, help="minutes to wait for a natural signal before the forced entry (default 5)")
     f = sub.add_parser("flatten")
     f.add_argument("--yes", action="store_true")
     dsh = sub.add_parser("dashboard")
@@ -236,7 +258,7 @@ def main():
     r.add_argument("--mode", default="live")
     a = p.parse_args()
     s = Settings()
-    {"check": cmd_check, "backtest": cmd_backtest, "shadow": cmd_shadow, "live": cmd_live, "flatten": cmd_flatten, "report": cmd_report, "dashboard": cmd_dashboard}[a.cmd](s, a)
+    {"check": cmd_check, "backtest": cmd_backtest, "shadow": cmd_shadow, "live": cmd_live, "demo": cmd_demo, "flatten": cmd_flatten, "report": cmd_report, "dashboard": cmd_dashboard}[a.cmd](s, a)
 
 
 if __name__ == "__main__":
